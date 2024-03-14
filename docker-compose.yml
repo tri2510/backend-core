@@ -1,24 +1,25 @@
 version: '3'
 
 services:
-  node-app:
+  playground-be:
     build: .
-    image: node-app
+    image: playground-be
     environment:
-      - MONGODB_URL=mongodb://mongodb:27017/node-boilerplate
+      - PORT=8080
+      - MONGODB_URL=mongodb://playground-db:27017/playground-be
     ports:
-      - '3000:3000'
+      - '8080:8080'
     depends_on:
-      - mongodb
+      - playground-db
     volumes:
-      - .:/usr/src/node-app
+      - .:/usr/src/playground-be
     networks:
       - node-network
 
-  mongodb:
+  playground-db:
     image: mongo:4.2.1-bionic
     ports:
-      - '27017:27017'
+      - '27018:27017'
     volumes:
       - dbdata:/data/db
     networks:

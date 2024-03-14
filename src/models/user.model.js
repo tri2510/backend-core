@@ -44,6 +44,16 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    tenant_id: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    provider: {
+      type: String,
+      required: true,
+      trim: true,
+    },
   },
   {
     timestamps: true,
