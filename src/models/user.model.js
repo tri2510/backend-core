@@ -44,6 +44,10 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isSystemAdmin: {
+      type: Boolean,
+      default: false,
+    },
     tenant_id: {
       type: String,
       required: true,
@@ -52,6 +56,11 @@ const userSchema = mongoose.Schema(
     provider: {
       type: String,
       required: true,
+      trim: true,
+    },
+    image_file: {
+      type: String,
+      required: false,
       trim: true,
     },
   },
