@@ -22,6 +22,9 @@ if (config.env !== 'test') {
   app.use(morgan.errorHandler);
 }
 
+// use cookies
+app.use(cookies());
+
 // set security HTTP headers
 app.use(helmet());
 

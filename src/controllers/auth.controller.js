@@ -18,6 +18,11 @@ const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const user = await authService.loginUserWithEmailAndPassword(email, password);
   const tokens = await tokenService.generateAuthTokens(user);
+  res.cookie('token', tokens.refresh.token, {
+    expires: tokens.refresh.expires,
+    ...config.jwt.cookieRefreshOptions,
+  });
+  delete tokens.refresh;
   res.send({ user, tokens });
 });
 
@@ -27,7 +32,13 @@ const logout = catchAsync(async (req, res) => {
 });
 
 const refreshTokens = catchAsync(async (req, res) => {
-  const tokens = await authService.refreshAuth(req.body.refreshToken);
+  const tokens = await authService.refreshAuth(req.cookies.token);
+  res.cookie('token', tokens.refresh.token, {
+    expires: tokens.refresh.expires,
+    ...config.jwt.cookieRefreshOptions,
+  });
+  delete tokens.refresh;
+
   res.send({ ...tokens });
 });
 
