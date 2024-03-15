@@ -14,7 +14,7 @@ router
 router
   .route('/self')
   .get(auth(), userController.getSelf)
-  .post(auth(), validate(userValidation.updateSelfUser), userController.updateSelf);
+  .put(auth(), validate(userValidation.updateSelfUser), userController.updateSelf);
 
 router
   .route('/:userId')
