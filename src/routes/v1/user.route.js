@@ -11,7 +11,10 @@ router
   .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
   .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
 
-router.route('/self').get(auth(), userController.getSelf);
+router
+  .route('/self')
+  .get(auth(), userController.getSelf)
+  .post(auth(), validate(userValidation.updateSelfUser), userController.updateSelf);
 
 router
   .route('/:userId')

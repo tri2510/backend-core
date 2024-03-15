@@ -39,6 +39,20 @@ const updateUser = {
     .min(1),
 };
 
+const updateSelfUser = {
+  body: Joi.object()
+    .keys({
+      email: Joi.string().email(),
+      password: Joi.string().custom(password),
+      name: Joi.string(),
+      role: Joi.string(),
+      isEmailVerified: Joi.boolean(),
+      tenant_id: Joi.string(),
+      image_file: Joi.string(),
+    })
+    .min(1),
+};
+
 const deleteUser = {
   params: Joi.object().keys({
     userId: Joi.string().custom(objectId),
@@ -49,6 +63,7 @@ module.exports = {
   createUser,
   getUsers,
   getUser,
+  updateSelfUser,
   updateUser,
   deleteUser,
 };
