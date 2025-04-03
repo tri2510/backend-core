@@ -51,7 +51,6 @@ const extendedApiSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-    strict: false,
   }
 );
 
