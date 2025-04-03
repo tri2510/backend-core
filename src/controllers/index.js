@@ -8,6 +8,5 @@ module.exports.discussionController = require('./discussion.controller');
 module.exports.feedbackController = require('./feedback.controller');
 module.exports.issueController = require('./issue.controller');
 module.exports.searchController = require('./search.controller');
-module.exports.homologationController = require('./homologation.controller');
 module.exports.assetController = require('./asset.controller');
 module.exports.changeLogController = require('./changeLog.controller');

@@ -53,8 +53,7 @@ const envVarsSchema = Joi.object()
     OPENAI_API_KEY: Joi.string().description('OpenAI API key'),
     OPENAI_ENDPOINT_URL: Joi.string().description('OpenAI endpoint url'),
     // Homologation
-    HOMOLOGATION_CLIENT_ID: Joi.string().description('Homologation client id'),
-    HOMOLOGATION_CLIENT_SECRET: Joi.string().description('Homologation client secret'),
+    HOMOLOGATION_URL: Joi.string().description('Homologation service url'),
     STRICT_AUTH: Joi.boolean().description('Strict auth'),
     // Admin emails
     ADMIN_EMAILS: Joi.string().description('Admin emails'),
@@ -155,12 +154,7 @@ const config = {
       url: envVars.LOG_URL,
     },
     homologation: {
-      authUrl: 'https://certivity-dev.eu.auth0.com/oauth/token',
-      authAudience: 'https://service-api-dev.certivity.io',
-      authGrantType: 'client_credentials',
-      clientId: envVars.HOMOLOGATION_CLIENT_ID,
-      clientSecret: envVars.HOMOLOGATION_CLIENT_SECRET,
-      regulationBaseUrl: 'https://ctvt-service-api.azurewebsites.net/api/v1/protected/regulation',
+      url: envVars.HOMOLOGATION_URL,
     },
   },
   openai: {

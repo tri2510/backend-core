@@ -5,7 +5,7 @@ const logger = require('./logger');
 const { match } = require('path-to-regexp');
 
 // Paths that should not parse body for proxy purpose. Parsing body will potentially cause the request to be consumed and not available for proxy.
-const excludePaths = ['/v2/file', '/v2/genai']
+const excludePaths = ['/v2/file', '/v2/genai', '/v2/homologation']
   .filter(Boolean)
   .map((path) => [path, `${path}/*any`])
   .flat();

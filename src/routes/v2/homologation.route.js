@@ -1,18 +1,24 @@
 const express = require('express');
-const validate = require('../../middlewares/validate');
-const { homologationValidation } = require('../../validations');
-const { homologationController } = require('../../controllers');
 const config = require('../../config/config');
 const auth = require('../../middlewares/auth');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const { proxyHandler } = require('../../config/proxyHandler');
 
 const router = express.Router();
 
-router.route('/regulations').get(
+router.use(
   auth({
     optional: !config.strictAuth,
-  }),
-  validate(homologationValidation.getRegulations),
-  homologationController.getRegulations
+  })
 );
+
+const proxyMiddleware = config.services.homologation.url
+  ? createProxyMiddleware({
+      target: config.services.homologation.url,
+      changeOrigin: true,
+    })
+  : null;
+
+router.use(proxyHandler('Homologation service', proxyMiddleware));
 
 module.exports = router;

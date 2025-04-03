@@ -67,7 +67,7 @@ const defaultRoutes = [
     route: searchRoute,
   },
   {
-    path: '/certivity',
+    path: '/homologation',
     route: homologationRoute,
   },
   {

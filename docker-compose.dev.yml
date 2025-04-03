@@ -38,3 +38,14 @@ services:
     networks:
       - node-network
     restart: no
+
+  homologation:
+    platform: linux/amd64
+    container_name: ${ENV:-dev}-homologation
+    image: boschvn/homologation:latest
+    networks:
+      - node-network
+    restart: no
+    environment:
+      - HOMOLOGATION_AUTH_CLIENT_ID=${HOMOLOGATION_AUTH_CLIENT_ID}
+      - HOMOLOGATION_AUTH_CLIENT_SECRET=${HOMOLOGATION_AUTH_CLIENT_SECRET}
