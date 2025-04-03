@@ -11,7 +11,7 @@ const permissionRoute = require('./permission.route');
 const extendedApiRoute = require('./extendedApi.route');
 const issueRoute = require('./issue.route');
 const searchRoute = require('./search.route');
-const certivityRoute = require('./certivity.route');
+const homologationRoute = require('./homologation.route');
 const assetRoute = require('./asset.route');
 const changeLogRoute = require('./changeLog.route');
 
@@ -68,7 +68,7 @@ const defaultRoutes = [
   },
   {
     path: '/certivity',
-    route: certivityRoute,
+    route: homologationRoute,
   },
   {
     path: '/assets',

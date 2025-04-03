@@ -52,18 +52,9 @@ const envVarsSchema = Joi.object()
     // OpenAI,
     OPENAI_API_KEY: Joi.string().description('OpenAI API key'),
     OPENAI_ENDPOINT_URL: Joi.string().description('OpenAI endpoint url'),
-    // GenAI
-    GENAI_ALLOWED_EMAILS: Joi.string().description('GenAI allowed emails'),
-    // ETAS
-    ETAS_ENABLED: Joi.boolean().description('ETAS enabled'),
-    ETAS_CLIENT_ID: Joi.string().description('ETAS client id'),
-    ETAS_CLIENT_SECRET: Joi.string().description('ETAS client secret'),
-    ETAS_SCOPE: Joi.string().description('ETAS scope'),
-    ETAS_INSTANCE_ENDPOINT: Joi.string().description('ETAS instance endpoint'),
-    ETAS_DEV_INSTANCE_ENDPOINT: Joi.string().description('ETAS dev instance endpoint'),
-    // Certivity
-    CERTIVITY_CLIENT_ID: Joi.string().description('Certivity client id'),
-    CERTIVITY_CLIENT_SECRET: Joi.string().description('Certivity client secret'),
+    // Homologation
+    HOMOLOGATION_CLIENT_ID: Joi.string().description('Homologation client id'),
+    HOMOLOGATION_CLIENT_SECRET: Joi.string().description('Homologation client secret'),
     STRICT_AUTH: Joi.boolean().description('Strict auth'),
     // Admin emails
     ADMIN_EMAILS: Joi.string().description('Admin emails'),
@@ -163,6 +154,14 @@ const config = {
     log: {
       url: envVars.LOG_URL,
     },
+    homologation: {
+      authUrl: 'https://certivity-dev.eu.auth0.com/oauth/token',
+      authAudience: 'https://service-api-dev.certivity.io',
+      authGrantType: 'client_credentials',
+      clientId: envVars.HOMOLOGATION_CLIENT_ID,
+      clientSecret: envVars.HOMOLOGATION_CLIENT_SECRET,
+      regulationBaseUrl: 'https://ctvt-service-api.azurewebsites.net/api/v1/protected/regulation',
+    },
   },
   openai: {
     apiKey: envVars.OPENAI_API_KEY,
@@ -172,26 +171,7 @@ const config = {
     publicKey: envVars.AWS_PUBLIC_KEY,
     secretKey: envVars.AWS_SECRET_KEY,
   },
-  genAI: {
-    allowedEmails: envVars.GENAI_ALLOWED_EMAILS?.split(',') || [],
-  },
-  etas: {
-    enabled: envVars.ETAS_ENABLED,
-    clientId: envVars.ETAS_CLIENT_ID,
-    clientSecret: envVars.ETAS_CLIENT_SECRET,
-    scope: envVars.ETAS_SCOPE,
-    instanceEndpoint: envVars.ETAS_INSTANCE_ENDPOINT,
-    developmentEndpoint: envVars.ETAS_DEV_INSTANCE_ENDPOINT,
-  },
   githubIssueSubmitUrl: 'https://api.github.com/repos/digital-auto/vehicle_signal_specification/issues',
-  certivity: {
-    authBaseUrl: 'https://certivity-dev.eu.auth0.com/oauth/token',
-    authAudience: 'https://service-api-dev.certivity.io',
-    authGrantType: 'client_credentials',
-    clientId: envVars.CERTIVITY_CLIENT_ID,
-    clientSecret: envVars.CERTIVITY_CLIENT_SECRET,
-    regulationBaseUrl: 'https://ctvt-service-api.azurewebsites.net/api/v1/protected/regulation',
-  },
   sso: {
     msGraphMeEndpoint: 'https://graph.microsoft.com/v1.0/me',
   },

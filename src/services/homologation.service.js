@@ -1,6 +1,6 @@
 const { isAxiosError, default: axios } = require('axios');
 const logger = require('../config/logger');
-const { getAuthorizationData, setAuthorizationData } = require('../states/certivityAuthorization');
+const { getAuthorizationData, setAuthorizationData } = require('../states/homologationAuthorization');
 const config = require('../config/config');
 const moment = require('moment');
 
@@ -10,22 +10,22 @@ const moment = require('moment');
  */
 const retrieveCredentials = async () => {
   try {
-    const response = await axios.post(config.certivity.authBaseUrl, {
-      client_id: config.certivity.clientId,
-      client_secret: config.certivity.clientSecret,
-      audience: config.certivity.authAudience,
-      grant_type: config.certivity.authGrantType,
+    const response = await axios.post(config.services.homologation.authUrl, {
+      client_id: config.services.homologation.clientId,
+      client_secret: config.services.homologation.clientSecret,
+      audience: config.services.homologation.authAudience,
+      grant_type: config.services.homologation.authGrantType,
     });
     return response.data;
   } catch (error) {
     if (isAxiosError(error)) {
       logger.error(
-        `Axios error. Error retrieving credentials from Certivity using axios: ${
+        `Axios error. Error retrieving credentials from Homologation using axios: ${
           error.response.data?.message || error.message
         }`
       );
     } else {
-      logger.error(`Error retrieving credentials from Certivity: ${error.message}`);
+      logger.error(`Error retrieving credentials from Homologation: ${error.message}`);
     }
     return null;
   }
@@ -46,7 +46,7 @@ const getCredentials = async () => {
     }
     setAuthorizationData({
       access_token: newCredentials.access_token,
-      // Subtract 5 seconds to ensure the token is not expired when calling the Certivity API
+      // Subtract 5 seconds to ensure the token is not expired when calling the Homologation API
       expires_at: moment()
         .add(newCredentials.expires_in - 5, 'seconds')
         .toDate(),
@@ -67,7 +67,7 @@ const getCredentials = async () => {
  */
 const getRegulations = async (accessToken, vehicleApis) => {
   try {
-    const response = await axios.get(config.certivity.regulationBaseUrl, {
+    const response = await axios.get(config.services.homologation.regulationBaseUrl, {
       headers: {
         Authorization: accessToken,
       },
