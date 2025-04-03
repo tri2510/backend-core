@@ -2,9 +2,9 @@ _format_version: '3.0'
 _transform: true
 
 services:
-  - host: ${ENV}-playground-be
+  - host: playground-be
     name: main
-    port: ${PORT}
+    port: 8080
     protocol: http
     routes:
       - name: main_route
@@ -30,7 +30,7 @@ plugins:
     config:
       fault_tolerant: true
       hide_client_headers: false
-      minute: 120
+      minute: 240
       limit_by: header
       header_name: x-forwarded-for
       policy: local
