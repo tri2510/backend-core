@@ -14,7 +14,6 @@ coverage
 # Local Netlify folder
 .netlify
 
-kong.yml
 
 
 data
