@@ -11,6 +11,7 @@ services:
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_DATABASE: "off"
       KONG_DECLARATIVE_CONFIG: /kong/declarative/kong.yml
+      KONG_NGINX_WORKER_PROCESSES: ${KONG_NGINX_WORKER_PROCESSES:-auto}
     ports:
       - "${KONG_PROXY_PORT}:8000"
 
@@ -49,7 +50,7 @@ services:
   upload:
     platform: linux/amd64
     container_name: ${ENV:-dev}-upload
-    image: boschvn/upload:dcdc95a
+    image: boschvn/upload:1.0.0
     env_file:
       - .env
     volumes:
