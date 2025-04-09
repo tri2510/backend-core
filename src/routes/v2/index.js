@@ -14,6 +14,10 @@ const searchRoute = require('./search.route');
 const homologationRoute = require('./homologation.route');
 const assetRoute = require('./asset.route');
 const changeLogRoute = require('./changeLog.route');
+const schemaRoute = require('./schema.route');
+const relationRoute = require('./relation.route');
+const instanceRoute = require('./instance.route');
+const instanceRelationRoute = require('./instanceRelation.route');
 
 const router = express.Router();
 
@@ -77,6 +81,22 @@ const defaultRoutes = [
   {
     path: '/change-logs',
     route: changeLogRoute,
+  },
+  {
+    path: '/inventory/schemas',
+    route: schemaRoute,
+  },
+  {
+    path: '/inventory/relations',
+    route: relationRoute,
+  },
+  {
+    path: '/inventory/instances',
+    route: instanceRoute,
+  },
+  {
+    path: '/inventory/instance-relations',
+    route: instanceRelationRoute,
   },
 ];
 

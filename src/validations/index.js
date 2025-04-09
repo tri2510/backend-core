@@ -12,3 +12,6 @@ module.exports.extendedApiValidation = require('./extendedApi.validation');
 module.exports.issueValidation = require('./issue.validation');
 module.exports.searchValidation = require('./search.validation');
 module.exports.assetValidation = require('./asset.validation');
+module.exports.schemaValidation = require('./schema.validation');
+module.exports.relationValidation = require('./relation.validation');
+module.exports.instanceRelationValidation = require('./instanceRelation.validation');
