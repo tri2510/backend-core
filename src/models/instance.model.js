@@ -37,10 +37,8 @@ instanceSchema.post('remove', async function (_, next) {
   try {
     const instanceRelations = await InstanceRelation.find({
       $or: [
-        {
-          source: this._id,
-          target: this._id,
-        },
+        { source: this._id },
+        { target: this._id },
       ],
     });
     await Promise.all(instanceRelations.map((ir) => ir.remove()));
