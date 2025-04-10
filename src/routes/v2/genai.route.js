@@ -1,4 +1,4 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware, fixRequestBody } = require('http-proxy-middleware');
 const config = require('../../config/config');
 const { proxyHandler } = require('../../config/proxyHandler');
 const { checkPermission } = require('../../middlewares/permission');
@@ -12,6 +12,9 @@ const proxyMiddleware = config.services.genAI.url
   ? createProxyMiddleware({
       target: config.services.genAI.url,
       changeOrigin: true,
+      on: {
+        proxyReq: fixRequestBody,
+      },
     })
   : null;
 
