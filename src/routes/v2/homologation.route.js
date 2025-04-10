@@ -1,7 +1,7 @@
 const express = require('express');
 const config = require('../../config/config');
 const auth = require('../../middlewares/auth');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware, fixRequestBody } = require('http-proxy-middleware');
 const { proxyHandler } = require('../../config/proxyHandler');
 
 const router = express.Router();
@@ -16,6 +16,9 @@ const proxyMiddleware = config.services.homologation.url
   ? createProxyMiddleware({
       target: config.services.homologation.url,
       changeOrigin: true,
+      on: {
+        proxyReq: fixRequestBody,
+      },
     })
   : null;
 
