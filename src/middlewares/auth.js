@@ -1,9 +1,23 @@
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const config = require('../config/config');
-const { default: axios } = require('axios');
+const { default: axios, isAxiosError } = require('axios');
 const passport = require('passport');
 const logger = require('../config/logger');
+/**
+ *
+ * @param {Object} user
+ */
+const sanitizeUser = (user) => {
+  if (!user || typeof user !== 'object') return user;
+  delete user.password;
+  delete user.__v;
+  user.id = user.id ?? user._id;
+  delete user._id;
+  delete user.createdAt;
+  delete user.updatedAt;
+  return user;
+};
 
 // Authentication middleware
 const auth =
@@ -17,6 +31,7 @@ const auth =
           headers: req.headers,
         });
         user = response?.data?.user;
+        user = sanitizeUser(user);
       } else {
         // If auth service url is not provided, use passport to authenticate the user
         user = await new Promise((resolve, reject) => {
@@ -38,7 +53,11 @@ const auth =
       if (optional) next();
       else {
         logger.error(`Failed to authenticate user: %o`, error?.message || error);
-        next(error);
+        if (isAxiosError(error)) {
+          next(new ApiError(error.response?.status || 401, error.response?.data?.message || 'Please authenticate'));
+        } else {
+          next(error);
+        }
       }
     }
   };
