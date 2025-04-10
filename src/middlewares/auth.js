@@ -4,8 +4,6 @@ const config = require('../config/config');
 const { default: axios, isAxiosError } = require('axios');
 const passport = require('passport');
 const logger = require('../config/logger');
-const { isObject } = require('lodash');
-
 /**
  *
  * @param {Object} user
