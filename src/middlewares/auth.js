@@ -27,8 +27,15 @@ const auth =
       let user;
       // If auth service url is provided, use it to authenticate the user
       if (config.services.auth.url) {
+        const forwardHeaders = { ...req.headers };
+        delete forwardHeaders['content-length'];
+        delete forwardHeaders['keep-alive'];
+        delete forwardHeaders['proxy-connection'];
+        delete forwardHeaders['transfer-encoding'];
+        delete forwardHeaders['upgrade'];
+        delete forwardHeaders['trailer'];
         const response = await axios.post(config.services.auth.url, req.body, {
-          headers: req.headers,
+          headers: forwardHeaders,
         });
         user = response?.data?.user;
         user = sanitizeUser(user);
