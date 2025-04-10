@@ -49,6 +49,7 @@
   ],
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.609.0",
+    "ajv": "^8.17.1",
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
     "bufferutil": "^4.0.8",

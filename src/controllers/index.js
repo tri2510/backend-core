@@ -10,3 +10,7 @@ module.exports.issueController = require('./issue.controller');
 module.exports.searchController = require('./search.controller');
 module.exports.assetController = require('./asset.controller');
 module.exports.changeLogController = require('./changeLog.controller');
+module.exports.schemaController = require('./schema.controller');
+module.exports.relationController = require('./relation.controller');
+module.exports.instanceController = require('./instance.controller');
+module.exports.instanceRelationController = require('./instanceRelation.controller');

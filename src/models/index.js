@@ -9,3 +9,7 @@ module.exports.Role = require('./role.model');
 module.exports.ExtendedApi = require('./extendedApi.model');
 module.exports.Issue = require('./issue.model');
 module.exports.Asset = require('./asset.model');
+module.exports.Schema = require('./schema.model');
+module.exports.Relation = require('./relation.model');
+module.exports.Instance = require('./instance.model');
+module.exports.InstanceRelation = require('./instanceRelation.model');

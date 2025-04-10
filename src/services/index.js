@@ -17,3 +17,7 @@ module.exports.assetService = require('./asset.service');
 module.exports.fileService = require('./file.service');
 module.exports.logService = require('./log.service');
 module.exports.changeLogService = require('./changeLog.service');
+module.exports.schemaService = require('./schema.service');
+module.exports.relationService = require('./relation.service');
+module.exports.instanceService = require('./instance.service');
+module.exports.instanceRelationService = require('./instanceRelation.service');
