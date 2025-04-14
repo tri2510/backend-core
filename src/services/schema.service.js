@@ -53,7 +53,7 @@ const querySchemas = async (filter, options) => {
  * @returns {Promise<Schema>}
  */
 const getSchemaById = async (id) => {
-  const schema = await Schema.findById(id);
+  const schema = await Schema.findById(id).populate('created_by');
   if (!schema) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Schema not found');
   }
