@@ -5,6 +5,7 @@ const createInstance = {
   body: Joi.object().keys({
     schema: Joi.string().custom(objectId).required(),
     data: Joi.object(),
+    name: Joi.string().required(),
   }),
 };
 
@@ -30,8 +31,9 @@ const updateInstance = {
   body: Joi.object()
     .keys({
       data: Joi.object(),
+      name: Joi.string(),
     })
-    .min(1), // Require at least 'data' to be updated
+    .min(1),
 };
 
 const deleteInstance = {

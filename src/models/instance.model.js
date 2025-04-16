@@ -4,6 +4,12 @@ const InstanceRelation = require('./instanceRelation.model');
 
 const instanceSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
+    },
     // Reference to the Schema this instance conforms to
     schema: {
       type: mongoose.SchemaTypes.ObjectId,
@@ -36,10 +42,7 @@ instanceSchema.plugin(paginate);
 instanceSchema.post('remove', async function (_, next) {
   try {
     const instanceRelations = await InstanceRelation.find({
-      $or: [
-        { source: this._id },
-        { target: this._id },
-      ],
+      $or: [{ source: this._id }, { target: this._id }],
     });
     await Promise.all(instanceRelations.map((ir) => ir.remove()));
     next();
