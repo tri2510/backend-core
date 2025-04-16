@@ -19,10 +19,8 @@ const instanceSchema = new mongoose.Schema(
     },
     // The actual data/object payload
     data: {
-      type: mongoose.SchemaTypes.Mixed,
+      type: String,
       required: true,
-      // Validation against the referenced schemaDefinition would typically happen
-      // in the service layer before saving, not directly in the Mongoose schema.
     },
     created_by: {
       type: mongoose.SchemaTypes.ObjectId,

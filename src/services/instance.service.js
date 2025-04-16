@@ -7,7 +7,7 @@ const ajv = new Ajv();
 /**
  * Validate instance data against its schema definition
  * @param {ObjectId} schemaId
- * @param {Object} data
+ * @param {string} data
  */
 const validateDataAgainstSchema = async (schemaId, data) => {
   const schema = await Schema.findById(schemaId);
@@ -15,9 +15,23 @@ const validateDataAgainstSchema = async (schemaId, data) => {
     throw new ApiError(httpStatus.BAD_REQUEST, `Schema with id ${schemaId} not found for validation`);
   }
 
+  let parsedSchemaDefinition;
   try {
-    const validate = ajv.compile(schema.schema_definition);
-    const valid = validate(data);
+    parsedSchemaDefinition = JSON.parse(schema.schema_definition);
+  } catch (error) {
+    throw new ApiError(httpStatus.BAD_REQUEST, `Schema definition parsing error: ${error.message}`);
+  }
+
+  let parsedInstanceData;
+  try {
+    parsedInstanceData = JSON.parse(data);
+  } catch (error) {
+    throw new ApiError(httpStatus.BAD_REQUEST, `Instance data parsing error: ${error.message}`);
+  }
+
+  try {
+    const validate = ajv.compile(parsedSchemaDefinition);
+    const valid = validate(parsedInstanceData);
     if (!valid) {
       throw new ApiError(httpStatus.BAD_REQUEST, `Data validation error: ${ajv.errorsText(validate.errors)}`);
     }
