@@ -33,7 +33,7 @@ const updateInstance = {
       data: Joi.object(),
       name: Joi.string(),
     })
-    .min(1), // Require at least 'data' to be updated
+    .min(1),
 };
 
 const deleteInstance = {
