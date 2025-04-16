@@ -16,7 +16,7 @@ const schemaSchema = new mongoose.Schema(
       trim: true,
     },
     schema_definition: {
-      type: mongoose.SchemaTypes.Mixed,
+      type: String,
       required: true,
     },
     created_by: {

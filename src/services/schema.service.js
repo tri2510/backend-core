@@ -6,12 +6,13 @@ const ajv = new Ajv();
 
 /**
  *
- * @param {Object} schemaDefinition
+ * @param {string} schemaDefinition
  */
 const validateSchemaDefinition = async (schemaDefinition) => {
   try {
-    const validate = ajv.compile(schemaDefinition);
-    validate(schemaDefinition);
+    const schema = JSON.parse(schemaDefinition);
+    const validate = ajv.compile(schema);
+    validate(schema);
   } catch (error) {
     if (error instanceof Ajv.ValidationError) {
       throw new ApiError(httpStatus.BAD_REQUEST, `Schema validation error: ${error.message}`);

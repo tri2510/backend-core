@@ -4,7 +4,7 @@ const { objectId } = require('./custom.validation');
 const createInstance = {
   body: Joi.object().keys({
     schema: Joi.string().custom(objectId).required(),
-    data: Joi.object(),
+    data: Joi.string().required(),
     name: Joi.string().required(),
   }),
 };
@@ -30,7 +30,7 @@ const updateInstance = {
   }),
   body: Joi.object()
     .keys({
-      data: Joi.object(),
+      data: Joi.string(),
       name: Joi.string(),
     })
     .min(1),

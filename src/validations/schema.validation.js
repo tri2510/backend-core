@@ -5,7 +5,7 @@ const createSchema = {
   body: Joi.object().keys({
     name: Joi.string().required().trim(),
     description: Joi.string().trim().allow(''),
-    schema_definition: Joi.object().required(),
+    schema_definition: Joi.string().required(),
   }),
 };
 
@@ -33,7 +33,7 @@ const updateSchema = {
     .keys({
       name: Joi.string().trim(),
       description: Joi.string().trim().allow(''),
-      schema_definition: Joi.object(),
+      schema_definition: Joi.string(),
     })
     .min(1), // Require at least one field to update
 };
