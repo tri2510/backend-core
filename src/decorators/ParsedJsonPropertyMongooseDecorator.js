@@ -12,6 +12,12 @@ class ParsedJsonPropertyMongooseDecorator {
       throw new Error('Error while parsing JSON data: Invalid data format. Data should be object.');
     }
 
+    if (!this.data._doc) {
+      throw new Error(
+        'Error while parsing JSON data: Data is not Mongoose Document. _doc property is not found in the data object.'
+      );
+    }
+
     if (!this.field || typeof this.field !== 'string') {
       throw new Error('Error while parsing JSON data: Field name is not provided or not a string.');
     }
