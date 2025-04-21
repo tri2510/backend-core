@@ -55,7 +55,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker
+      - name: Build Docker 2
         run: |
           docker compose --env-file .env -f docker-compose.yml -f docker-compose.dev.yml build
 
