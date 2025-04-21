@@ -1,3 +1,5 @@
+require('dotenv').config({ path: '.env' }); // Load env vars early
+
 const mongoose = require('mongoose');
 const config = require('../../src/config/config');
 
@@ -7,7 +9,9 @@ const setupTestDB = () => {
   });
 
   beforeEach(async () => {
-    await Promise.all(Object.values(mongoose.connection.collections).map(async (collection) => collection.deleteMany()));
+    await Promise.all(
+      Object.values(mongoose.connection.collections).map((collection) => collection.deleteMany())
+    );
   });
 
   afterAll(async () => {
