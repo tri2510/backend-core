@@ -55,17 +55,28 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract short commit hash
-        run: echo "TAG=dev-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      - name: Extract Git tag and short commit hash
+        run: |
+          echo "GIT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          echo "GIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-      - name: Build only services with build context
+      - name: Build Docker images
         run: |
           docker compose --env-file .env -f docker-compose.yml -f docker-compose.dev.yml build playground-be upload
 
-      - name: Push images with -dev-<sha> tag
+      - name: Tag and Push Docker images
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/playground-be:$TAG
-          docker push ghcr.io/${{ github.repository_owner }}/upload:$TAG
+          docker tag ghcr.io/${{ github.repository_owner }}/playground-be ghcr.io/${{ github.repository_owner }}/playground-be:dev-${GIT_SHA}
+          docker tag ghcr.io/${{ github.repository_owner }}/playground-be ghcr.io/${{ github.repository_owner }}/playground-be:${GIT_TAG}
+          
+          docker tag ghcr.io/${{ github.repository_owner }}/upload ghcr.io/${{ github.repository_owner }}/upload:dev-${GIT_SHA}
+          docker tag ghcr.io/${{ github.repository_owner }}/upload ghcr.io/${{ github.repository_owner }}/upload:${GIT_TAG}
+          
+          docker push ghcr.io/${{ github.repository_owner }}/playground-be:dev-${GIT_SHA}
+          docker push ghcr.io/${{ github.repository_owner }}/playground-be:${GIT_TAG}
+          
+          docker push ghcr.io/${{ github.repository_owner }}/upload:dev-${GIT_SHA}
+          docker push ghcr.io/${{ github.repository_owner }}/upload:${GIT_TAG}
 
       - name: Create GitHub Release
         continue-on-error: true
