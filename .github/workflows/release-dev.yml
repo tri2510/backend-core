@@ -33,6 +33,8 @@ jobs:
 
       - name: Create .env file
         run: |
+          GIT_TAG=${GITHUB_REF#refs/tags/}
+          SHORT_SHA=$(git rev-parse --short HEAD)
           echo "PORT=3000" >> .env
           echo "JWT_SECRET=your_jwt_secret" >> .env
           echo "JWT_ACCESS_EXPIRATION_MINUTES=30" >> .env
@@ -47,7 +49,7 @@ jobs:
           echo "UPLOAD_PORT=4000" >> .env
           echo "UPLOAD_DOMAIN=http://localhost" >> .env
           echo "UPLOAD_PATH=./upload-data" >> .env
-          echo "TAG=dev-$(git rev-parse --short HEAD)" >> .env
+          echo "TAG=dev-${SHORT_SHA}-${GIT_TAG}" >> .env
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -61,10 +63,14 @@ jobs:
 
       - name: Build only services with build context
         run: |
+          echo "🔧 Building with tag: $TAG"
           docker compose --env-file .env -f docker-compose.yml -f docker-compose.dev.yml build playground-be upload
 
-      - name: Push images with -dev-<sha> tag
+      - name: Push images with dev-<sha>-<tag>
         run: |
+          echo "🚀 Pushing images:"
+          echo "  ghcr.io/${{ github.repository_owner }}/playground-be:$TAG"
+          echo "  ghcr.io/${{ github.repository_owner }}/upload:$TAG"
           docker push ghcr.io/${{ github.repository_owner }}/playground-be:$TAG
           docker push ghcr.io/${{ github.repository_owner }}/upload:$TAG
 
