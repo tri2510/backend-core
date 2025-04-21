@@ -1,5 +1,9 @@
 services:
   playground-be:
+    build:
+      context: .
+      dockerfile: Dockerfile.playground-be  # or just omit this if Dockerfile is named "Dockerfile"
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/playground-be:${TAG}
     command: yarn dev -L
     volumes:
       - .:/usr/src/playground-be
@@ -8,10 +12,15 @@ services:
       - .env
 
   upload:
+    build:
+      context: ./upload
+      dockerfile: Dockerfile.upload  # adjust if different
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/upload:${TAG}
     command: npm start
     restart: no
     env_file:
       - .env
+
 
   playground-db:
     ports:

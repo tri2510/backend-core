@@ -55,16 +55,16 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker
+      - name: Build only services with build context
         run: |
-          docker compose --env-file .env -f docker-compose.yml -f docker-compose.dev.yml build
-
-      - name: Push Docker image
-        run: |
-          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
           TAG=${GITHUB_REF##*/}
-          docker tag backend-core ${IMAGE_NAME}:${TAG}
-          docker push ${IMAGE_NAME}:${TAG}
+          docker compose --env-file .env -f docker-compose.yml -f docker-compose.dev.yml build playground-be upload
+
+      - name: Push images
+        run: |
+          TAG=${GITHUB_REF##*/}
+          docker push ghcr.io/${{ github.repository_owner }}/playground-be:${TAG}
+          docker push ghcr.io/${{ github.repository_owner }}/upload:${TAG}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
