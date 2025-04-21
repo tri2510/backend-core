@@ -6,5 +6,4 @@ module.exports = {
   restoreMocks: true,
   coveragePathIgnorePatterns: ['node_modules', 'src/config', 'src/app.js', 'tests'],
   coverageReporters: ['text', 'lcov', 'clover', 'html'],
-  setupFiles: ['./tests/utils/setupTestDB.js'],
 };
