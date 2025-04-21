@@ -55,16 +55,18 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract tag name for image
+        id: extract_tag
+        run: echo "TAG=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
+
       - name: Build only services with build context
         run: |
-          TAG=${GITHUB_REF##*/}
           docker compose --env-file .env -f docker-compose.yml -f docker-compose.dev.yml build playground-be upload
 
       - name: Push images
         run: |
-          TAG=${GITHUB_REF##*/}
-          docker push ghcr.io/${{ github.repository_owner }}/playground-be:${TAG}
-          docker push ghcr.io/${{ github.repository_owner }}/upload:${TAG}
+          docker push ghcr.io/${{ github.repository_owner }}/playground-be:$TAG
+          docker push ghcr.io/${{ github.repository_owner }}/upload:$TAG
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
