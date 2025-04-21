@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '.env.test' });
+require('dotenv').config({ path: '.env.example' });
 
 const mongoose = require('mongoose');
 const config = require('../../src/config/config');
