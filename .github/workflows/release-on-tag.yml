@@ -27,15 +27,15 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Run tests (TODO)
+        run: echo "TODO: Add test execution step here"
+
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Run tests (TODO)
-        run: echo "TODO: Add test execution step here"
 
       - name: Build Docker
         run: |
@@ -45,7 +45,7 @@ jobs:
         run: |
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
           TAG=${GITHUB_REF##*/}
-          docker tag your-service-name ${IMAGE_NAME}:${TAG}
+          docker tag backend-core ${IMAGE_NAME}:${TAG}
           docker push ${IMAGE_NAME}:${TAG}
 
       - name: Create GitHub Release
