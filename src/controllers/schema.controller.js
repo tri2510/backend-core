@@ -3,14 +3,10 @@ const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
 const { schemaService } = require('../services');
 const ApiError = require('../utils/ApiError');
-const ParsedJsonPropertyMongooseDecorator = require('../decorators/ParsedJsonPropertyMongooseDecorator');
-const ParsedJsonPropertyMongooseListDecorator = require('../decorators/ParsedJsonPropertyMongooseListDecorator');
 
 const createSchema = catchAsync(async (req, res) => {
   const schema = await schemaService.createSchema(req.body, req.user.id);
-  res
-    .status(httpStatus.CREATED)
-    .send(new ParsedJsonPropertyMongooseDecorator(schema, 'schema_definition').getParsedJsonPropertyData());
+  res.status(httpStatus.CREATED).send(schema);
 });
 
 const getSchemas = catchAsync(async (req, res) => {
@@ -18,16 +14,12 @@ const getSchemas = catchAsync(async (req, res) => {
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   options.populate = ['created_by', 'name'];
   const result = await schemaService.querySchemas(filter, options);
-  result.results = new ParsedJsonPropertyMongooseListDecorator(
-    result.results,
-    'schema_definition'
-  ).getParsedJsonPropertyDataList();
   res.send(result);
 });
 
 const getSchema = catchAsync(async (req, res) => {
   const schema = await schemaService.getSchemaById(req.params.schemaId);
-  res.send(new ParsedJsonPropertyMongooseDecorator(schema, 'schema_definition').getParsedJsonPropertyData());
+  res.send(schema);
 });
 
 const updateSchema = catchAsync(async (req, res) => {

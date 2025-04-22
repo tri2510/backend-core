@@ -3,6 +3,9 @@ const { Instance, Schema } = require('../models');
 const ApiError = require('../utils/ApiError');
 const Ajv = require('ajv');
 const ajv = new Ajv();
+const schemaService = require('./schema.service');
+const ParsedJsonPropertiesMongooseDecorator = require('../decorators/ParsedJsonPropertiesMongooseDecorator');
+const ParsedJsonPropertiesMongooseListDecorator = require('../decorators/ParsedJsonPropertiesMongooseListDecorator');
 
 /**
  * Validate instance data against its schema definition
@@ -81,12 +84,13 @@ const queryInstances = async (filter, options) => {
         },
         {
           path: 'created_by',
-          select: 'name',
+          select: 'name image_file',
         },
       ],
     ];
   }
   const instances = await Instance.paginate(filter, options);
+  instances.results = new ParsedJsonPropertiesMongooseListDecorator(instances.results, 'data').getParsedPropertiesDataList();
   return instances;
 };
 
@@ -96,11 +100,19 @@ const queryInstances = async (filter, options) => {
  * @returns {Promise<Instance>}
  */
 const getInstanceById = async (id) => {
-  const instance = await Instance.findById(id).populate('schema', 'name').populate('created_by', 'name'); // Populate schema name
+  const instance = await Instance.findById(id).populate('created_by', 'name image_file'); // Populate schema name
   if (!instance) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Instance not found');
   }
-  return instance;
+
+  const schema = await schemaService.getSchemaById(instance.schema);
+  if (!schema) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Schema for instance not found');
+  }
+
+  const parsedSchema = new ParsedJsonPropertiesMongooseDecorator(schema, 'schema_definition').getParsedPropertiesData();
+  instance._doc.schema = parsedSchema;
+  return new ParsedJsonPropertiesMongooseDecorator(instance, 'data').getParsedPropertiesData();
 };
 
 const isOwner = async (instanceId, userId) => {
