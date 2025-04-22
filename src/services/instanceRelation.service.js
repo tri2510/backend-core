@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { InstanceRelation, Relation, Instance } = require('../models');
 const ApiError = require('../utils/ApiError');
+const ParsedJsonPropertiesMongooseDecorator = require('../decorators/ParsedJsonPropertiesMongooseDecorator');
 
 /**
  * Validate the compatibility of source/target instances with the relation definition
@@ -81,7 +82,7 @@ const queryInstanceRelations = async (filter, options) => {
         { path: 'relation', select: 'type source target' },
         { path: 'source', select: 'schema' },
         { path: 'target', select: 'schema' },
-        { path: 'created_by', select: 'name' },
+        { path: 'created_by', select: 'name image_file' },
       ],
     ];
   }
@@ -95,14 +96,11 @@ const queryInstanceRelations = async (filter, options) => {
  * @returns {Promise<InstanceRelation>}
  */
 const getInstanceRelationById = async (id) => {
-  const instanceRelation = await InstanceRelation.findById(id)
-    .populate('relation', 'type source target')
-    .populate('source', 'schema')
-    .populate('target', 'schema');
+  const instanceRelation = await InstanceRelation.findById(id).populate('relation').populate('source').populate('target');
   if (!instanceRelation) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Instance relation not found');
   }
-  return instanceRelation;
+  return new ParsedJsonPropertiesMongooseDecorator(instanceRelation, 'source.data', 'target.data').getParsedPropertiesData();
 };
 
 /**
