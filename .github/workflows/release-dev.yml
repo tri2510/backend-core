@@ -64,21 +64,10 @@ jobs:
       - name: Build only services with build context
         run: |
           echo "🔧 Building with tag: $TAG"
-          docker compose --env-file .env -f docker-compose.yml -f docker-compose.dev.yml build playground-be upload
+          docker compose --env-file .env -f docker-compose.yml -f docker-compose.dev.yml build playground-be
 
       - name: Push images with dev-<sha>-<tag>
         run: |
           echo "🚀 Pushing images:"
           echo "  ghcr.io/${{ github.repository_owner }}/playground-be:$TAG"
-          echo "  ghcr.io/${{ github.repository_owner }}/upload:$TAG"
           docker push ghcr.io/${{ github.repository_owner }}/playground-be:$TAG
-          docker push ghcr.io/${{ github.repository_owner }}/upload:$TAG
-
-      - name: Create GitHub Release
-        continue-on-error: true
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
