@@ -1,13 +1,13 @@
-// ParsedJsonPropertyMongooseDecorator that handles multiple fields.
-const ParsedJsonPropertyMongooseDecorator = require('./ParsedJsonPropertiesMongooseDecorator');
+// ParsedJsonPropertiesMongooseDecorator that handles multiple fields.
+const ParsedJsonPropertiesMongooseDecorator = require('./ParsedJsonPropertiesMongooseDecorator');
 
 /**
  * Decorator class to parse specified JSON string properties for each object
  * within a list (array) of Mongoose documents.
  * It modifies the original documents' internal _doc properties by leveraging
- * ParsedJsonPropertyMongooseDecorator for each item.
+ * ParsedJsonPropertiesMongooseDecorator for each item.
  */
-class ParsedJsonPropertyDataListDecorator {
+class ParsedJsonPropertiesMongooseListDecorator {
   /**
    * @param {Array<object>} dataList - An array of Mongoose document objects (each should contain _doc).
    * @param {...string} fields - One or more names of the fields whose string values need to be parsed as JSON within each document in the list.
@@ -39,7 +39,7 @@ class ParsedJsonPropertyDataListDecorator {
 
   /**
    * Iterates through the list of Mongoose documents and parses the specified
-   * JSON string properties for each document using ParsedJsonPropertyMongooseDecorator.
+   * JSON string properties for each document using ParsedJsonPropertiesMongooseDecorator.
    * Updates each document's internal _doc property in place.
    *
    * @returns {Array<object>} The original array of Mongoose documents, where each document
@@ -57,10 +57,10 @@ class ParsedJsonPropertyDataListDecorator {
 
         // Create an instance of the single-item parser for the current document ('data'),
         // passing ALL the required field names using the spread syntax (...this.fields).
-        const singleItemParser = new ParsedJsonPropertyMongooseDecorator(data, ...this.fields);
+        const singleItemParser = new ParsedJsonPropertiesMongooseDecorator(data, ...this.fields);
 
         // Execute the parsing method of the single-item parser.
-        return singleItemParser.getParsedPropertiesData(); // or getParsedJsonPropertyData() if you kept the old name
+        return singleItemParser.getParsedPropertiesData();
       } catch (error) {
         // If any error occurs during instantiation or parsing for an item,
         // catch it and re-throw with the list index for better context.
@@ -70,4 +70,4 @@ class ParsedJsonPropertyDataListDecorator {
   }
 }
 
-module.exports = ParsedJsonPropertyDataListDecorator;
+module.exports = ParsedJsonPropertiesMongooseListDecorator;

@@ -3,7 +3,7 @@ const { Schema } = require('../models');
 const ApiError = require('../utils/ApiError');
 const Ajv = require('ajv');
 const ParsedJsonPropertiesMongooseDecorator = require('../decorators/ParsedJsonPropertiesMongooseDecorator');
-const ParsedJsonPropertiesDataListDecorator = require('../decorators/ParsedJsonPropertiesMongooseListDecorator');
+const ParsedJsonPropertiesMongooseListDecorator = require('../decorators/ParsedJsonPropertiesMongooseListDecorator');
 const ajv = new Ajv();
 
 /**
@@ -47,7 +47,7 @@ const createSchema = async (schemaBody, userId) => {
  */
 const querySchemas = async (filter, options) => {
   const schemas = await Schema.paginate(filter, options);
-  schemas.results = new ParsedJsonPropertiesDataListDecorator(
+  schemas.results = new ParsedJsonPropertiesMongooseListDecorator(
     schemas.results,
     'schema_definition'
   ).getParsedPropertiesDataList();

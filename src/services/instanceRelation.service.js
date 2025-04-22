@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const { InstanceRelation, Relation, Instance } = require('../models');
 const ApiError = require('../utils/ApiError');
-const ParsedJsonPropertyMongooseDecorator = require('../decorators/ParsedJsonPropertiesMongooseDecorator');
+const ParsedJsonPropertiesMongooseDecorator = require('../decorators/ParsedJsonPropertiesMongooseDecorator');
 
 /**
  * Validate the compatibility of source/target instances with the relation definition
@@ -100,7 +100,7 @@ const getInstanceRelationById = async (id) => {
   if (!instanceRelation) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Instance relation not found');
   }
-  return new ParsedJsonPropertyMongooseDecorator(instanceRelation, 'source.data', 'target.data');
+  return new ParsedJsonPropertiesMongooseDecorator(instanceRelation, 'source.data', 'target.data').getParsedPropertiesData();
 };
 
 /**

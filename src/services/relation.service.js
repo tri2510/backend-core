@@ -1,8 +1,7 @@
 const httpStatus = require('http-status');
 const { Relation, Schema } = require('../models');
 const ApiError = require('../utils/ApiError');
-const ParsedJsonPropertyDataListDecorator = require('../decorators/ParsedJsonPropertiesMongooseListDecorator');
-const ParsedJsonPropertyMongooseDecorator = require('../decorators/ParsedJsonPropertiesMongooseDecorator');
+const ParsedJsonPropertiesMongooseDecorator = require('../decorators/ParsedJsonPropertiesMongooseDecorator');
 
 /**
  * Check if source and target schemas exist
@@ -92,7 +91,11 @@ const getRelationById = async (id) => {
   if (!relation) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Relation not found');
   }
-  return new ParsedJsonPropertyMongooseDecorator(relation, 'source.schema_definition', 'target.schema_definition');
+  return new ParsedJsonPropertiesMongooseDecorator(
+    relation,
+    'source.schema_definition',
+    'target.schema_definition'
+  ).getParsedPropertiesData();
 };
 
 /**

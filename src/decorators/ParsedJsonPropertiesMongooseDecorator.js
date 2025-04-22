@@ -1,3 +1,5 @@
+const { Model } = require('mongoose');
+
 /**
  * Helper function to safely retrieve a value from a nested object path.
  * @param {object} obj - The object to traverse.
@@ -35,7 +37,16 @@ function setValueByPath(obj, path, value) {
       const parentPath = path.slice(0, i).join('.');
       throw new Error(`Cannot access property '${path[i]}' on non-object parent at path '${parentPath}'.`);
     }
-    current = current[path[i]];
+
+    const nextParent = current[path[i]];
+
+    // If nextParent is mongoose model, we need to access its _doc property
+    if (nextParent && typeof nextParent === 'object' && typeof nextParent._doc === 'object' && nextParent instanceof Model) {
+      current = nextParent._doc;
+      continue;
+    }
+
+    current = nextParent;
   }
 
   // Set the value at the final key, ensuring the parent 'current' is an object
@@ -55,9 +66,9 @@ function setValueByPath(obj, path, value) {
  * supporting nested fields via dot notation.
  * It modifies the original document's internal _doc property.
  */
-class ParsedJsonPropertyMongooseDecorator {
+class ParsedJsonPropertiesMongooseDecorator {
   /**
-   * Creates an instance of ParsedJsonPropertyMongooseDecorator.
+   * Creates an instance of ParsedJsonPropertiesMongooseDecorator.
    *
    * @param {object} data - The Mongoose document object (must contain the _doc property).
    * @param {...string} fields - One or more names of the fields (can include dot notation for nesting, e.g., "parent.child") whose string values need to be parsed as JSON.
@@ -108,7 +119,6 @@ class ParsedJsonPropertyMongooseDecorator {
       const pathComponents = field.split('.');
 
       const fieldData = getValueByPath(this.data, pathComponents);
-
       // --- Parse and Set ---
       if (typeof fieldData === 'string') {
         // Handle empty strings before parsing
@@ -139,4 +149,4 @@ class ParsedJsonPropertyMongooseDecorator {
   }
 }
 
-module.exports = ParsedJsonPropertyMongooseDecorator;
+module.exports = ParsedJsonPropertiesMongooseDecorator;
