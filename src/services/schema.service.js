@@ -4,6 +4,7 @@ const ApiError = require('../utils/ApiError');
 const Ajv = require('ajv');
 const ParsedJsonPropertiesMongooseDecorator = require('../decorators/ParsedJsonPropertiesMongooseDecorator');
 const ParsedJsonPropertiesMongooseListDecorator = require('../decorators/ParsedJsonPropertiesMongooseListDecorator');
+const { buildMongoSearchFilter } = require('../utils/queryUtils');
 const ajv = new Ajv();
 
 /**
@@ -43,10 +44,12 @@ const createSchema = async (schemaBody, userId) => {
  * Query for schemas
  * @param {Object} filter - Mongo filter
  * @param {Object} options - Query options
+ * @param {Object} [advanced] - Advanced options: eg. search
  * @returns {Promise<QueryResult>}
  */
-const querySchemas = async (filter, options) => {
-  const schemas = await Schema.paginate(filter, options);
+const querySchemas = async (filter, options, advanced) => {
+  const finalFilter = buildMongoSearchFilter(filter, advanced.search, ['name', 'description']);
+  const schemas = await Schema.paginate(finalFilter, options);
   schemas.results = new ParsedJsonPropertiesMongooseListDecorator(
     schemas.results,
     'schema_definition'

@@ -12,7 +12,8 @@ const createInstance = catchAsync(async (req, res) => {
 const getInstances = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['schema']); // Filter by schema ObjectId
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await instanceService.queryInstances(filter, options);
+  const advanced = pick(req.query, ['search']);
+  const result = await instanceService.queryInstances(filter, options, advanced);
   res.send(result);
 });
 
