@@ -1,3 +1,5 @@
+const { escapeRegExp } = require('lodash');
+
 /**
  *
  * @param {Object} originalFilter
@@ -20,7 +22,8 @@ const buildMongoSearchFilter = (originalFilter, searchTerm, searchFields) => {
     Array.isArray(searchFields) &&
     searchFields.length > 0
   ) {
-    const regex = new RegExp(searchTerm.trim(), 'i'); // Case-insensitive regex, trim whitespace
+    const sanitizedSearchTerm = escapeRegExp(searchTerm.trim());
+    const regex = new RegExp(sanitizedSearchTerm, 'i'); // Case-insensitive regex, trim whitespace
 
     // Build the $or condition dynamically based on searchFields
     const orClauses = searchFields.map((field) => ({ [field]: regex }));
