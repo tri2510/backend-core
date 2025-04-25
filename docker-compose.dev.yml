@@ -2,7 +2,7 @@ services:
   playground-be:
     build:
         context: .
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/playground-be:${TAG}
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER:-eclipse-autowrx}/playground-be:${TAG:-latest}
     command: yarn dev -L
     volumes:
       - .:/usr/src/playground-be
@@ -11,14 +11,12 @@ services:
       - .env
 
   upload:
-    build:
-      context: .
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/upload:${TAG}
     command: npm start
     restart: no
     env_file:
       - .env
-      
+
+
   playground-db:
     ports:
       - "27017:27017"
