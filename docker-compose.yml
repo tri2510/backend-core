@@ -50,7 +50,7 @@ services:
   upload:
     platform: linux/amd64
     container_name: ${ENV:-dev}-upload
-    image: boschvn/upload:1.0.0
+    image: boschvn/upload:1.1.0
     env_file:
       - .env
     volumes:
