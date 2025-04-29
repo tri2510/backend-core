@@ -48,6 +48,9 @@ const extendedApiSchema = mongoose.Schema(
     deprecation: {
       type: String,
     },
+    custom_properties: {
+      type: mongoose.Schema.Types.Mixed,
+    },
   },
   {
     timestamps: true,
