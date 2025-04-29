@@ -2,34 +2,33 @@ const Joi = require('joi');
 const { objectId } = require('./custom.validation');
 
 const createExtendedApi = {
-  body: Joi.object()
-    .keys({
-      apiName: Joi.string().required(),
-      model: Joi.string().custom(objectId).required(),
-      skeleton: Joi.string().optional(),
-      type: Joi.string(),
-      datatype: Joi.alternatives().conditional('type', {
-        is: 'branch',
-        then: Joi.string().allow(null).optional(),
-        otherwise: Joi.string().required(),
-      }),
-      description: Joi.string().allow('').default(''),
-      tags: Joi.array().items(
-        Joi.object().keys({
-          title: Joi.string().required(),
-          description: Joi.string().allow(''),
-        })
-      ),
-      isWishlist: Joi.boolean().default(false),
-      unit: Joi.string().allow('', null),
-      min: Joi.number(),
-      max: Joi.number(),
-      allowed: Joi.array().items(Joi.any()),
-      comment: Joi.string(),
-      default: Joi.any(),
-      deprecation: Joi.string(),
-    })
-    .unknown(),
+  body: Joi.object().keys({
+    apiName: Joi.string().required(),
+    model: Joi.string().custom(objectId).required(),
+    skeleton: Joi.string().optional(),
+    type: Joi.string(),
+    datatype: Joi.alternatives().conditional('type', {
+      is: 'branch',
+      then: Joi.string().allow(null).optional(),
+      otherwise: Joi.string().required(),
+    }),
+    description: Joi.string().allow('').default(''),
+    tags: Joi.array().items(
+      Joi.object().keys({
+        title: Joi.string().required(),
+        description: Joi.string().allow(''),
+      })
+    ),
+    isWishlist: Joi.boolean().default(false),
+    unit: Joi.string().allow('', null),
+    min: Joi.number(),
+    max: Joi.number(),
+    allowed: Joi.array().items(Joi.any()),
+    comment: Joi.string(),
+    default: Joi.any(),
+    deprecation: Joi.string(),
+    custom_properties: Joi.object().unknown(),
+  }),
 };
 
 const getExtendedApis = {
@@ -79,8 +78,8 @@ const updateExtendedApi = {
       comment: Joi.string(),
       default: Joi.any(),
       deprecation: Joi.string(),
+      custom_properties: Joi.object().unknown(),
     })
-    .unknown()
     .min(1),
 };
 
