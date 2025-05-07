@@ -1,5 +1,7 @@
 /* eslint-disable no-param-reassign */
 
+const config = require('../../config/config');
+
 const paginate = (schema) => {
   /**
    * @typedef {Object} QueryResult
@@ -15,7 +17,7 @@ const paginate = (schema) => {
    * @param {Object} [options] - Query options
    * @param {string} [options.sortBy] - Sorting criteria using the format: sortField:(desc|asc). Multiple sorting criteria should be separated by commas (,)
    * @param {string} [options.populate] - Populate data fields. Hierarchy of fields should be separated by (.). Multiple populating criteria should be separated by commas (,)
-   * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+   * @param {number} [options.limit] - Maximum number of results per page
    * @param {number} [options.page] - Current page (default = 1)
    * @param {number} [options.fields] - Fields to select
    * @returns {Promise<QueryResult>}
@@ -33,7 +35,8 @@ const paginate = (schema) => {
       sort = 'createdAt';
     }
 
-    const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
+    const limit =
+      options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : config.constraints.defaultPageSize;
     const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
     const skip = (page - 1) * limit;
 

@@ -122,6 +122,7 @@ const config = {
     model: {
       maximumAuthorizedUsers: 1000,
     },
+    defaultPageSize: 100,
   },
   github: {
     clientId: process.env.GITHUB_CLIENT_ID,
