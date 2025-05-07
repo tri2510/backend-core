@@ -17,7 +17,7 @@ const paginate = (schema) => {
    * @param {Object} [options] - Query options
    * @param {string} [options.sortBy] - Sorting criteria using the format: sortField:(desc|asc). Multiple sorting criteria should be separated by commas (,)
    * @param {string} [options.populate] - Populate data fields. Hierarchy of fields should be separated by (.). Multiple populating criteria should be separated by commas (,)
-   * @param {number} [options.limit] - Maximum number of results per page
+   * @param {number} [options.limit] - Maximum number of results per page (default = config.constraints.defaultPageSize)
    * @param {number} [options.page] - Current page (default = 1)
    * @param {number} [options.fields] - Fields to select
    * @returns {Promise<QueryResult>}
