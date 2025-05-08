@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:22-slim
 
 RUN mkdir -p /usr/src/playground-be && chown -R node:node /usr/src/playground-be
 

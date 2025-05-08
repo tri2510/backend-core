@@ -10,6 +10,7 @@ const { PERMISSIONS } = require('../config/roles');
 const mongoose = require('mongoose');
 const logger = require('../config/logger');
 const _ = require('lodash');
+const config = require('../config/config');
 
 /**
  *
@@ -154,7 +155,7 @@ const getModels = async (filter) => {
  * @returns {Promise<QueryResult>}
  */
 const queryModels = async (filter, options, advanced, userId) => {
-  const { sortBy, limit = 10, page = 1, fields } = options;
+  const { sortBy, limit = config.constraints.defaultPageSize, page = 1, fields } = options;
 
   // Cast id to ObjectId if have
   if (filter.id) {

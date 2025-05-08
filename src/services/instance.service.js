@@ -6,6 +6,7 @@ const ajv = new Ajv();
 const schemaService = require('./schema.service');
 const ParsedJsonPropertiesMongooseDecorator = require('../decorators/ParsedJsonPropertiesMongooseDecorator');
 const ParsedJsonPropertiesMongooseListDecorator = require('../decorators/ParsedJsonPropertiesMongooseListDecorator');
+const { buildMongoSearchFilter } = require('../utils/queryUtils');
 
 /**
  * Validate instance data against its schema definition
@@ -71,9 +72,10 @@ const createInstance = async (instanceBody, userId) => {
  * Query for instances
  * @param {Object} filter - Mongo filter
  * @param {Object} options - Query options
+ * @param {Object} [advanced] - Advanced options
  * @returns {Promise<QueryResult>}
  */
-const queryInstances = async (filter, options) => {
+const queryInstances = async (filter, options, advanced) => {
   if (!options.populate) {
     // Need wrapping array because of spread operator in paginate.plugin logic
     options.populate = [
@@ -89,7 +91,8 @@ const queryInstances = async (filter, options) => {
       ],
     ];
   }
-  const instances = await Instance.paginate(filter, options);
+  const finalFilter = buildMongoSearchFilter(filter, advanced.search, ['name']);
+  const instances = await Instance.paginate(finalFilter, options);
   instances.results = new ParsedJsonPropertiesMongooseListDecorator(instances.results, 'data').getParsedPropertiesDataList();
   return instances;
 };

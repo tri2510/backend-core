@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const { Relation, Schema } = require('../models');
 const ApiError = require('../utils/ApiError');
 const ParsedJsonPropertiesMongooseDecorator = require('../decorators/ParsedJsonPropertiesMongooseDecorator');
+const { buildMongoSearchFilter } = require('../utils/queryUtils');
 
 /**
  * Check if source and target schemas exist
@@ -51,9 +52,10 @@ const createRelation = async (relationBody, userId) => {
  * Query for relations
  * @param {Object} filter - Mongo filter
  * @param {Object} options - Query options
+ * @param {Object} [advanced] - Advanced options: eg. search
  * @returns {Promise<QueryResult>}
  */
-const queryRelations = async (filter, options) => {
+const queryRelations = async (filter, options, advanced) => {
   // Ensure relations are populated with schema names for context
   if (!options.populate) {
     // Need wrapping array because of spread operator in paginate.plugin logic
@@ -74,7 +76,8 @@ const queryRelations = async (filter, options) => {
       ],
     ];
   }
-  const relations = await Relation.paginate(filter, options);
+  const finalFilter = buildMongoSearchFilter(filter, advanced.search, ['type', 'description', 'cardinality']);
+  const relations = await Relation.paginate(finalFilter, options);
   return relations;
 };
 
