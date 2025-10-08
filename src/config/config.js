@@ -81,7 +81,10 @@ const config = {
   strictAuth: envVars.STRICT_AUTH,
   mongoose: {
     url: envVars.MONGODB_URL + (envVars.NODE_ENV === 'test' ? '-test' : ''),
-    options: {},
+    options: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
   },
   jwt: {
     secret: envVars.JWT_SECRET,

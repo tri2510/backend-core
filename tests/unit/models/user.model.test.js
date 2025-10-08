@@ -1,12 +1,12 @@
 // Copyright (c) 2025 Eclipse Foundation.
-//
+// 
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
 //
 // SPDX-License-Identifier: MIT
 
-const { faker } = require('@faker-js/faker');
+const faker = require('faker');
 const { User } = require('../../../src/models');
 
 describe('User model', () => {
@@ -14,7 +14,7 @@ describe('User model', () => {
     let newUser;
     beforeEach(() => {
       newUser = {
-        name: faker.person.fullName(),
+        name: faker.name.findName(),
         email: faker.internet.email().toLowerCase(),
         password: 'password1',
         role: 'user',
@@ -54,7 +54,7 @@ describe('User model', () => {
   describe('User toJSON()', () => {
     test('should not return user password when toJSON is called', () => {
       const newUser = {
-        name: faker.person.fullName(),
+        name: faker.name.findName(),
         email: faker.internet.email().toLowerCase(),
         password: 'password1',
         role: 'user',
