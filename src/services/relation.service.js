@@ -148,7 +148,7 @@ const updateRelationById = async (relationId, updateBody) => {
  */
 const deleteRelationById = async (relationId) => {
   const relation = await getRelationById(relationId);
-  await relation.remove();
+  await relation.deleteOne();
   return relation;
 };
 

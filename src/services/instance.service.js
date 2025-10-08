@@ -157,7 +157,7 @@ const updateInstanceById = async (instanceId, updateBody) => {
  */
 const deleteInstanceById = async (instanceId) => {
   const instance = await getInstanceById(instanceId);
-  await instance.remove();
+  await instance.deleteOne();
   return instance;
 };
 

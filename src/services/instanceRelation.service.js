@@ -143,7 +143,7 @@ const updateInstanceRelationById = async (instanceRelationId, updateBody) => {
  */
 const deleteInstanceRelationById = async (instanceRelationId) => {
   const instanceRelation = await getInstanceRelationById(instanceRelationId);
-  await instanceRelation.remove();
+  await instanceRelation.deleteOne();
   return instanceRelation;
 };
 

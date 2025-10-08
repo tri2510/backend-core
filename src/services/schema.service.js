@@ -111,7 +111,7 @@ const updateSchemaById = async (schemaId, updateBody) => {
  */
 const deleteSchemaById = async (schemaId) => {
   const schema = await getSchemaById(schemaId);
-  await schema.remove();
+  await schema.deleteOne();
   return schema;
 };
 

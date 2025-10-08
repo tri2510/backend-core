@@ -72,7 +72,7 @@ relationSchema.post('remove', async function (_, next) {
     const instanceRelations = await InstanceRelation.find({
       relation: this._id,
     });
-    await Promise.all(instanceRelations.map((ir) => ir.remove()));
+    await Promise.all(instanceRelations.map((ir) => ir.deleteOne()));
     next();
   } catch (error) {
     next(error);

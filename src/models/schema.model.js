@@ -46,9 +46,9 @@ schemaSchema.post('remove', async function (_, next) {
     const relations = await Relation.find({
       $or: [{ source: this._id }, { target: this._id }],
     });
-    await Promise.all(relations.map((r) => r.remove()));
+    await Promise.all(relations.map((r) => r.deleteOne()));
     const instances = await Instance.find({ schema: this._id });
-    await Promise.all(instances.map((i) => i.remove()));
+    await Promise.all(instances.map((i) => i.deleteOne()));
     next();
   } catch (error) {
     next(error);
