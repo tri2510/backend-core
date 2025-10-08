@@ -15,8 +15,8 @@ try {
 // Test 2: Mongoose compatibility
 try {
   require('mongoose');
-  console.log('✅ Mongoose 8.0.0 - Compatible');
-  console.log('   Note: Removed deprecated options (useNewUrlParser, useUnifiedTopology)');
+  console.log('✅ Mongoose 6.x - Compatible');
+  console.log('   Note: Legacy connection options remain enabled for compatibility');
 } catch (e) {
   console.log('❌ Mongoose - Error:', e.message);
 }

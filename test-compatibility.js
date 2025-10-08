@@ -76,8 +76,10 @@ async function testMongoose() {
     const testUrl = process.env.MONGODB_URL || 'mongodb://localhost:27017/test-db';
     await mongoose.connect(testUrl, {
       serverSelectionTimeoutMS: 5000,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
-    console.log('✅ Mongoose 8.0.0 - Database connection successful');
+    console.log('✅ Mongoose 6.x - Database connection successful');
     await mongoose.disconnect();
   } catch (e) {
     console.log('⚠️  Mongoose - Connection failed (MongoDB may not be running)');

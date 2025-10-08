@@ -81,7 +81,10 @@ const config = {
   strictAuth: envVars.STRICT_AUTH,
   mongoose: {
     url: envVars.MONGODB_URL + (envVars.NODE_ENV === 'test' ? '-test' : ''),
-    options: {},
+    options: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
   },
   jwt: {
     secret: envVars.JWT_SECRET,
@@ -131,6 +134,7 @@ const config = {
     },
     log: {
       port: envVars.LOG_PORT || 9600,
+      url: envVars.LOG_URL,
     },
     cache: {
       url: envVars.CACHE_URL,
@@ -145,9 +149,6 @@ const config = {
       url: envVars.EMAIL_URL, // This is the URL for your custom email service
       apiKey: envVars.EMAIL_API_KEY,
       endpointUrl: envVars.EMAIL_ENDPOINT_URL, // This is the endpoint URL for the default email service: Brevo
-    },
-    log: {
-      url: envVars.LOG_URL,
     },
     homologation: {
       url: envVars.HOMOLOGATION_URL,
