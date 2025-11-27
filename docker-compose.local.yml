@@ -1,0 +1,39 @@
+# AutoWRX Local Development Configuration
+# Simplified setup for local development without private Docker images
+
+version: '3.8'
+
+services:
+  playground-db:
+    container_name: dev-playground-db
+    image: mongo:4.4.6-bionic
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: playground-be
+
+  playground-be:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dev-playground-be
+    ports:
+      - '8080:8080'
+    env_file:
+      - .env
+    depends_on:
+      - playground-db
+    restart: unless-stopped
+    volumes:
+      - .:/usr/src/playground-be
+      - /usr/src/playground-be/node_modules
+    command: yarn dev
+    environment:
+      - NODE_ENV=development
+      - MONGODB_URL=mongodb://playground-db:27017/playground-be
+
+volumes:
+  mongodb_data:
