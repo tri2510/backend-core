@@ -28,7 +28,7 @@ const envVarsSchema = Joi.object()
       .default(10)
       .description('minutes after which verify email token expires'),
     JWT_COOKIE_NAME: Joi.string().default('token').description('JWT cookie name'),
-    JWT_COOKIE_DOMAIN: Joi.string().default('').description('JWT cookie domain'),
+    JWT_COOKIE_DOMAIN: Joi.string().allow('').default('').description('JWT cookie domain'),
     SMTP_HOST: Joi.string().description('server that will send the emails'),
     SMTP_PORT: Joi.number().description('port to connect to the email server'),
     SMTP_USERNAME: Joi.string().description('username for email server'),
@@ -93,9 +93,9 @@ const config = {
     cookie: {
       name: envVars.JWT_COOKIE_NAME,
       options: {
-        secure: true,
+        secure: envVars.NODE_ENV === 'production',
         httpOnly: true,
-        sameSite: 'None',
+        sameSite: envVars.NODE_ENV === 'production' ? 'None' : 'Lax',
         ...(envVars.NODE_ENV === 'production' && { domain: envVars.JWT_COOKIE_DOMAIN }),
       },
     },
@@ -145,9 +145,6 @@ const config = {
       url: envVars.EMAIL_URL, // This is the URL for your custom email service
       apiKey: envVars.EMAIL_API_KEY,
       endpointUrl: envVars.EMAIL_ENDPOINT_URL, // This is the endpoint URL for the default email service: Brevo
-    },
-    log: {
-      url: envVars.LOG_URL,
     },
     homologation: {
       url: envVars.HOMOLOGATION_URL,

@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+const http = require('http');
 const express = require('express');
 const helmet = require('helmet');
 const cookies = require('cookie-parser');
@@ -50,7 +51,12 @@ app.use(compression());
 
 // enable cors
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    credentials: true,
+  }),
+);
 /*
 app.use(
   cors({
@@ -69,7 +75,8 @@ app.use('/v2', routesV2);
 
 // Setup proxy to other services
 setupProxy(app);
-const server = require('http').createServer(app);
+
+const server = http.createServer(app);
 initSocketIO(server);
 
 // send back a 404 error for any unknown api request
