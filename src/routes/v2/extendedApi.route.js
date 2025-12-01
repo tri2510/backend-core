@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -23,7 +23,7 @@ router
       optional: !config.strictAuth,
     }),
     validate(extendedApiValidation.getExtendedApis),
-    extendedApiController.getExtendedApis
+    extendedApiController.getExtendedApis,
   );
 
 router.route('/by-api-and-model').get(
@@ -31,7 +31,7 @@ router.route('/by-api-and-model').get(
     optional: !config.strictAuth,
   }),
   validate(extendedApiValidation.getExtendedApiByApiNameAndModel),
-  extendedApiController.getExtendedApiByApiNameAndModel
+  extendedApiController.getExtendedApiByApiNameAndModel,
 );
 
 router
@@ -41,7 +41,7 @@ router
       optional: !config.strictAuth,
     }),
     validate(extendedApiValidation.getExtendedApi),
-    extendedApiController.getExtendedApi
+    extendedApiController.getExtendedApi,
   )
   .patch(auth(), validate(extendedApiValidation.updateExtendedApi), extendedApiController.updateExtendedApi)
   .delete(auth(), validate(extendedApiValidation.deleteExtendedApi), extendedApiController.deleteExtendedApi);

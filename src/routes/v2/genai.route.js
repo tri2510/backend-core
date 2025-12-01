@@ -7,12 +7,12 @@
 // SPDX-License-Identifier: MIT
 
 const { createProxyMiddleware, fixRequestBody } = require('http-proxy-middleware');
+const router = require('express').Router();
 const config = require('../../config/config');
 const { proxyHandler } = require('../../config/proxyHandler');
 const { checkPermission } = require('../../middlewares/permission');
 const { PERMISSIONS } = require('../../config/roles');
 const auth = require('../../middlewares/auth');
-const router = require('express').Router();
 
 router.use(auth(), checkPermission(PERMISSIONS.GENERATIVE_AI));
 

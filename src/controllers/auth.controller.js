@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -28,7 +28,7 @@ const authorize = catchAsync(async (req, res) => {
   if (bodyData.permissions) {
     const permissionQueries = bodyData.permissions.split(',').map((permission) => permission.split(':'));
     const results = await Promise.all(
-      permissionQueries.map((query) => permissionService.hasPermission(req.user.id ?? bodyData.userId, query[0], query[1]))
+      permissionQueries.map((query) => permissionService.hasPermission(req.user.id ?? bodyData.userId, query[0], query[1])),
     );
 
     if (!results.every(Boolean)) {
@@ -103,9 +103,9 @@ const forgotPassword = catchAsync(async (req, res) => {
 
   const resetPasswordToken = await tokenService.generateResetPasswordToken(req.body.email);
 
-  let domain = undefined;
+  let domain;
   try {
-    const hostname = new URL(req.get('referer')).hostname;
+    const { hostname } = new URL(req.get('referer'));
     if (hostname === 'auth.digital.auto') {
       domain = hostname;
     }
@@ -131,7 +131,7 @@ const forgotPassword = catchAsync(async (req, res) => {
           origin: req.get('origin'),
           referer: req.get('referer'),
         },
-      }
+      },
     );
   } catch (error) {
     logger.warn(`Failed to create log - forgot password log: ${error}`);
@@ -163,7 +163,7 @@ const resetPassword = catchAsync(async (req, res) => {
           origin: req.get('origin'),
           referer: req.get('referer'),
         },
-      }
+      },
     );
   } catch (error) {
     logger.warn(`Failed to create log: ${error}`);

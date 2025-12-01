@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: MIT
 
 const { Server } = require('socket.io');
-const logger = require('./logger');
-const ApiError = require('../utils/ApiError');
 const httpStatus = require('http-status');
 const jwt = require('jsonwebtoken');
+const logger = require('./logger');
+const ApiError = require('../utils/ApiError');
 const config = require('./config');
 const { jwtVerify } = require('./passport');
 const { tokenTypes } = require('./tokens');
@@ -45,7 +45,7 @@ const init = (server) => {
             // }
             socket.user = user;
             next();
-          }
+          },
         );
       });
     } else {

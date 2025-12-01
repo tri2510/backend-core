@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -7,15 +7,15 @@
 // SPDX-License-Identifier: MIT
 
 const httpStatus = require('http-status');
+const { default: axios, isAxiosError } = require('axios');
+const _ = require('lodash');
 const { Prototype } = require('../models');
 const ApiError = require('../utils/ApiError');
 const permissionService = require('./permission.service');
 const { PERMISSIONS } = require('../config/roles');
-const { default: axios, isAxiosError } = require('axios');
 const config = require('../config/config');
 const logger = require('../config/logger');
 const modelService = require('./model.service');
-const _ = require('lodash');
 
 /**
  *
@@ -27,7 +27,7 @@ const createPrototype = async (userId, prototypeBody) => {
   if (await Prototype.existsPrototypeInModel(prototypeBody.model_id, prototypeBody.name)) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      `Duplicate prototype name '${prototypeBody.name}' in model ${prototypeBody.model_id}`
+      `Duplicate prototype name '${prototypeBody.name}' in model ${prototypeBody.model_id}`,
     );
   }
 
@@ -67,7 +67,7 @@ const bulkCreatePrototypes = async (userId, prototypes) => {
     if (await Prototype.existsPrototypeInModel(prototype.model_id, prototype.name)) {
       throw new ApiError(
         httpStatus.BAD_REQUEST,
-        `Duplicate prototype name '${prototype.name}' in model ${prototype.model_id}`
+        `Duplicate prototype name '${prototype.name}' in model ${prototype.model_id}`,
       );
     }
   }
@@ -76,7 +76,7 @@ const bulkCreatePrototypes = async (userId, prototypes) => {
     prototypes.map((prototype) => ({
       ...prototype,
       created_by: userId,
-    }))
+    })),
   );
   return data.map((item) => item._id);
 };
@@ -147,7 +147,7 @@ const updatePrototypeById = async (id, updateBody, actionOwner) => {
   if (updateBody.name && (await Prototype.existsPrototypeInModel(prototype.model_id, updateBody.name, id))) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      `Duplicate prototype name '${updateBody.name}' in model ${prototype.model_id}`
+      `Duplicate prototype name '${updateBody.name}' in model ${prototype.model_id}`,
     );
   }
 
@@ -293,7 +293,7 @@ const deleteMany = async (filter, actionOwner) => {
     prototypes.map(async (prototype) => {
       prototype.action_owner = actionOwner;
       await prototype.remove();
-    })
+    }),
   );
 };
 

@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -7,12 +7,13 @@
 // SPDX-License-Identifier: MIT
 
 const httpStatus = require('http-status');
+const Ajv = require('ajv');
 const { Schema } = require('../models');
 const ApiError = require('../utils/ApiError');
-const Ajv = require('ajv');
 const ParsedJsonPropertiesMongooseDecorator = require('../decorators/ParsedJsonPropertiesMongooseDecorator');
 const ParsedJsonPropertiesMongooseListDecorator = require('../decorators/ParsedJsonPropertiesMongooseListDecorator');
 const { buildMongoSearchFilter } = require('../utils/queryUtils');
+
 const ajv = new Ajv();
 
 /**
@@ -60,7 +61,7 @@ const querySchemas = async (filter, options, advanced) => {
   const schemas = await Schema.paginate(finalFilter, options);
   schemas.results = new ParsedJsonPropertiesMongooseListDecorator(
     schemas.results,
-    'schema_definition'
+    'schema_definition',
   ).getParsedPropertiesDataList();
   return schemas;
 };

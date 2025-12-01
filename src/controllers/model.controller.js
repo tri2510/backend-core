@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -38,8 +38,8 @@ const createModel = catchAsync(async (req, res) => {
             ...api,
             model: model._id,
             isWishlist: api.isWishlist || false,
-          })
-        )
+          }),
+        ),
       );
     }
   } catch (error) {
@@ -68,8 +68,8 @@ const createModel = catchAsync(async (req, res) => {
               datatype: api.datatype || (api.type !== 'branch' ? 'string' : null),
               isWishlist: api.isWishlist || false,
               unit: api.unit,
-            })
-          )
+            }),
+          ),
         );
       }
     }
@@ -109,7 +109,7 @@ const listAllModels = catchAsync(async (req, res) => {
       limit: 1000,
     },
     {},
-    req.user?.id
+    req.user?.id,
   );
 
   const contributedModels = req.user?.id
@@ -122,7 +122,7 @@ const listAllModels = catchAsync(async (req, res) => {
         {
           is_contributor: req.user?.id,
         },
-        req.user?.id
+        req.user?.id,
       )
     : { results: [] };
 
@@ -136,7 +136,7 @@ const listAllModels = catchAsync(async (req, res) => {
       limit: 1000,
     },
     {},
-    req.user?.id
+    req.user?.id,
   );
 
   if (options.fields) {
@@ -225,7 +225,7 @@ const updateModel = catchAsync(async (req, res) => {
       ...req.body,
       ...(req.body.custom_apis && { custom_apis: JSON.parse(req.body.custom_apis) }),
     },
-    req.user.id
+    req.user.id,
   );
   res.send(model);
 });
@@ -238,7 +238,7 @@ const deleteModel = catchAsync(async (req, res) => {
 const addAuthorizedUser = catchAsync(async (req, res) => {
   const userIds = req.body.userId?.split(',');
   const promises = userIds.map((userId) =>
-    modelService.addAuthorizedUser(req.params.id, { userId, role: req.body.role }, req.user.id)
+    modelService.addAuthorizedUser(req.params.id, { userId, role: req.body.role }, req.user.id),
   );
   await Promise.all(promises).catch((err) => {
     throw new ApiError(httpStatus.BAD_REQUEST, err.message);
@@ -253,7 +253,7 @@ const deleteAuthorizedUser = catchAsync(async (req, res) => {
       role: req.query.role,
       userId: req.query.userId,
     },
-    req.user.id
+    req.user.id,
   );
   res.status(httpStatus.NO_CONTENT).send();
 });
@@ -300,7 +300,7 @@ const replaceApi = catchAsync(async (req, res) => {
       if (error) {
         throw new ApiError(
           httpStatus.BAD_REQUEST,
-          `Error in validating extended API ${extended_api.name || extended_api.apiName} - ${error.details.join(', ')}`
+          `Error in validating extended API ${extended_api.name || extended_api.apiName} - ${error.details.join(', ')}`,
         );
       }
     }
@@ -315,8 +315,8 @@ const replaceApi = catchAsync(async (req, res) => {
         ...api,
         model: modelId,
         isWishlist: api.isWishlist || false,
-      })
-    )
+      }),
+    ),
   );
 
   res.status(httpStatus.OK).send();

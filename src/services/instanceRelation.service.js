@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -32,7 +32,7 @@ const validateRelationCompatibility = async (relationId, sourceInstanceId, targe
   if (sourceInstance.schema._id.toString() !== relation.source._id.toString()) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      `Source instance's schema (${sourceInstance.schema}) does not match relation's defined source schema (${relation.source})`
+      `Source instance's schema (${sourceInstance.schema}) does not match relation's defined source schema (${relation.source})`,
     );
   }
 
@@ -40,7 +40,7 @@ const validateRelationCompatibility = async (relationId, sourceInstanceId, targe
   if (targetInstance.schema._id.toString() !== relation.target._id.toString()) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      `Target instance's schema (${targetInstance.schema}) does not match relation's defined target schema (${relation.target})`
+      `Target instance's schema (${targetInstance.schema}) does not match relation's defined target schema (${relation.target})`,
     );
   }
 

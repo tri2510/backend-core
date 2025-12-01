@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -12,7 +12,7 @@ const { Role } = require('../models');
 const { userService, permissionService } = require('../services');
 
 const assignAdmins = async () => {
-  const adminEmails = config.adminEmails;
+  const { adminEmails } = config;
   if (!adminEmails || !adminEmails.length) {
     logger.info('No admin emails found to assign. Skipping...');
     return;
@@ -37,8 +37,8 @@ const assignAdmins = async () => {
             email,
             name: email.split('@')[0],
             ...(config.adminPassword ? { password: config.adminPassword } : {}),
-          })
-        )
+          }),
+        ),
       );
     } catch (error) {
       logger.error('Error creating rest users');

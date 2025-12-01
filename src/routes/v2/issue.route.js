@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -22,14 +22,14 @@ router
       optional: !config.strictAuth,
     }),
     validate(issueValidation.createIssue),
-    issueController.createIssue
+    issueController.createIssue,
   )
   .get(
     auth({
       optional: !config.strictAuth,
     }),
     validate(issueValidation.getIssues),
-    issueController.getIssues
+    issueController.getIssues,
   );
 
 router.route('/by-api').get(
@@ -37,7 +37,7 @@ router.route('/by-api').get(
     optional: !config.strictAuth,
   }),
   validate(issueValidation.getIssueByApi),
-  issueController.getIssueByApi
+  issueController.getIssueByApi,
 );
 
 router
@@ -47,21 +47,21 @@ router
       optional: !config.strictAuth,
     }),
     validate(issueValidation.getIssue),
-    issueController.getIssue
+    issueController.getIssue,
   )
   .patch(
     auth({
       optional: !config.strictAuth,
     }),
     validate(issueValidation.updateIssue),
-    issueController.updateIssue
+    issueController.updateIssue,
   )
   .delete(
     auth({
       optional: !config.strictAuth,
     }),
     validate(issueValidation.deleteIssue),
-    issueController.deleteIssue
+    issueController.deleteIssue,
   );
 
 module.exports = router;

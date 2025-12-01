@@ -14,6 +14,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const compression = require('compression');
 const passport = require('passport');
 const httpStatus = require('http-status');
+const server = require('http').createServer(app);
 const config = require('./config/config');
 const morgan = require('./config/morgan');
 const { jwtStrategy } = require('./config/passport');
@@ -51,9 +52,18 @@ app.use(compression());
 // enable cors
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://10.189.232.240:3000', 'http://10.189.232.240:3001', 'http://10.189.232.240:3002', 'http://10.189.232.240:3003'],
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:3002',
+      'http://localhost:3003',
+      'http://10.189.232.240:3000',
+      'http://10.189.232.240:3001',
+      'http://10.189.232.240:3002',
+      'http://10.189.232.240:3003',
+    ],
     credentials: true,
-  })
+  }),
 );
 app.options('*', cors());
 
@@ -65,7 +75,6 @@ app.use('/v2', routesV2);
 
 // Setup proxy to other services
 setupProxy(app);
-const server = require('http').createServer(app);
 initSocketIO(server);
 
 // send back a 404 error for any unknown api request

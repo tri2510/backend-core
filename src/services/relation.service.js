@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -105,7 +105,7 @@ const getRelationById = async (id) => {
   return new ParsedJsonPropertiesMongooseDecorator(
     relation,
     'source.schema_definition',
-    'target.schema_definition'
+    'target.schema_definition',
   ).getParsedPropertiesData();
 };
 
@@ -132,7 +132,7 @@ const updateRelationById = async (relationId, updateBody) => {
   if (updateBody.source || updateBody.target || updateBody.type) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      'Updating source, target, or type is not recommended. Delete and recreate if needed.'
+      'Updating source, target, or type is not recommended. Delete and recreate if needed.',
     );
   }
 

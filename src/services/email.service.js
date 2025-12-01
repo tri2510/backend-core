@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -39,22 +39,21 @@ const sendEmail = async (to, subject, html) => {
         headers: {
           'api-key': config.services.email.apiKey,
         },
-      }
-    );
-  else
-    return axios.post(
-      `${config.services.email.url}`,
-      {
-        to,
-        subject,
-        html,
       },
-      {
-        headers: {
-          'api-key': config.services.email.apiKey,
-        },
-      }
     );
+  return axios.post(
+    `${config.services.email.url}`,
+    {
+      to,
+      subject,
+      html,
+    },
+    {
+      headers: {
+        'api-key': config.services.email.apiKey,
+      },
+    },
+  );
 };
 
 /**

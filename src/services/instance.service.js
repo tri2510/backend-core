@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -7,9 +7,10 @@
 // SPDX-License-Identifier: MIT
 
 const httpStatus = require('http-status');
+const Ajv = require('ajv');
 const { Instance, Schema } = require('../models');
 const ApiError = require('../utils/ApiError');
-const Ajv = require('ajv');
+
 const ajv = new Ajv();
 const schemaService = require('./schema.service');
 const ParsedJsonPropertiesMongooseDecorator = require('../decorators/ParsedJsonPropertiesMongooseDecorator');

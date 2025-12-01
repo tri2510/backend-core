@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -37,7 +37,7 @@ const updateVSS = async (releases) => {
     logger.info('Updated VSS version list');
     logger.info('Downloading VSS versions data');
     const promises = releases.map((release) =>
-      fileService.downloadFile(release.browser_download_url, path.join(__dirname, `../../data/${release.name}.json`))
+      fileService.downloadFile(release.browser_download_url, path.join(__dirname, `../../data/${release.name}.json`)),
     );
     await Promise.all(promises);
     logger.info('Downloaded VSS versions data');

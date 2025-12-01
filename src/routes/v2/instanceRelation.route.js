@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -20,7 +20,7 @@ router
   .post(
     auth(),
     validate(instanceRelationValidation.createInstanceRelation),
-    instanceRelationController.createInstanceRelation
+    instanceRelationController.createInstanceRelation,
   )
   .get(validate(instanceRelationValidation.getInstanceRelations), instanceRelationController.getInstanceRelations);
 
@@ -30,12 +30,12 @@ router
   .patch(
     auth(),
     validate(instanceRelationValidation.updateInstanceRelation),
-    instanceRelationController.updateInstanceRelation
+    instanceRelationController.updateInstanceRelation,
   )
   .delete(
     auth(),
     validate(instanceRelationValidation.deleteInstanceRelation),
-    instanceRelationController.deleteInstanceRelation
+    instanceRelationController.deleteInstanceRelation,
   );
 
 module.exports = router;

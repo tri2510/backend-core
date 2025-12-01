@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: MIT
 
 const { createProxyMiddleware } = require('http-proxy-middleware');
-const config = require('./config');
 const httpStatus = require('http-status');
+const config = require('./config');
 const logger = require('./logger');
 
 const setupProxy = (app) => {
@@ -17,7 +17,7 @@ const setupProxy = (app) => {
     createProxyMiddleware({
       target: `http://upload:${config.services.upload.port}`,
       changeOrigin: true,
-    })
+    }),
   );
 };
 

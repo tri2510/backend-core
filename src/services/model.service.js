@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: MIT
 
 const httpStatus = require('http-status');
+const mongoose = require('mongoose');
+const _ = require('lodash');
 const { userService } = require('.');
 const prototypeService = require('./prototype.service');
 const apiService = require('./api.service');
@@ -15,9 +17,7 @@ const fileService = require('./file.service');
 const { Model, Role } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { PERMISSIONS } = require('../config/roles');
-const mongoose = require('mongoose');
 const logger = require('../config/logger');
-const _ = require('lodash');
 const config = require('../config/config');
 
 /**
@@ -222,7 +222,7 @@ const queryModels = async (filter, options, advanced, userId) => {
             },
           },
         },
-      ]
+      ],
     );
   }
 
@@ -277,7 +277,7 @@ const queryModels = async (filter, options, advanced, userId) => {
           preserveNullAndEmptyArrays: true,
         },
       },
-    ]
+    ],
   );
 
   const models = await Model.aggregate(pipeline).exec();
@@ -310,7 +310,7 @@ const queryModels = async (filter, options, advanced, userId) => {
 const getModelById = async (id, userId, includeCreatorFullDetails) => {
   const model = await Model.findById(id).populate(
     'created_by',
-    includeCreatorFullDetails ? 'id name image_file email' : 'id name image_file'
+    includeCreatorFullDetails ? 'id name image_file email' : 'id name image_file',
   );
   if (!model) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Model not found');
@@ -499,13 +499,13 @@ const processApiDataUrl = async (apiDataUrl) => {
               convertToExtendedApiFormat({
                 ...value,
                 name,
-              })
+              }),
             );
             delete api.children[key];
           }
         }
       },
-      mainApi
+      mainApi,
     );
 
     const result = {
@@ -534,12 +534,12 @@ const processApiDataUrl = async (apiDataUrl) => {
               convertToExtendedApiFormat({
                 ...value,
                 name,
-              })
+              }),
             );
             delete api.children[key];
           }
         },
-        mainApi
+        mainApi,
       );
     }
 
@@ -552,7 +552,7 @@ const processApiDataUrl = async (apiDataUrl) => {
     logger.error(`Error in processing api data: ${error}`);
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      error?.message || `Error in processing api data. Please check content of the file again.`
+      error?.message || `Error in processing api data. Please check content of the file again.`,
     );
   }
 };

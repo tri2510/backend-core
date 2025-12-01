@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: MIT
 
 const express = require('express');
+const { createProxyMiddleware, fixRequestBody } = require('http-proxy-middleware');
 const config = require('../../config/config');
 const auth = require('../../middlewares/auth');
-const { createProxyMiddleware, fixRequestBody } = require('http-proxy-middleware');
 const { proxyHandler } = require('../../config/proxyHandler');
 
 const router = express.Router();
@@ -17,7 +17,7 @@ const router = express.Router();
 router.use(
   auth({
     optional: !config.strictAuth,
-  })
+  }),
 );
 
 const proxyMiddleware = config.services.homologation.url

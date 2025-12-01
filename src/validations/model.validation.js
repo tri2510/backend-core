@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Eclipse Foundation.
-// 
+//
 // This program and the accompanying materials are made available under the
 // terms of the MIT License which is available at
 // https://opensource.org/licenses/MIT.
@@ -22,7 +22,7 @@ const createModel = {
     model_home_image_file: Joi.string()
       .allow('')
       .default(
-        'https://firebasestorage.googleapis.com/v0/b/digital-auto.appspot.com/o/media%2Fcar_full_ed.PNG?alt=media&token=ea75b8c1-a57a-44ea-9edb-9816131f9905'
+        'https://firebasestorage.googleapis.com/v0/b/digital-auto.appspot.com/o/media%2Fcar_full_ed.PNG?alt=media&token=ea75b8c1-a57a-44ea-9edb-9816131f9905',
       ),
     detail_image_file: Joi.string().allow(''),
     model_files: Joi.object(),
@@ -37,7 +37,7 @@ const createModel = {
       Joi.object().keys({
         title: Joi.string().required(),
         description: Joi.string().allow(''),
-      })
+      }),
     ),
     state: Joi.string().max(255).default('draft'),
   }),
@@ -86,7 +86,7 @@ const updateModel = {
         Joi.object().keys({
           title: Joi.string().required(),
           description: Joi.string().allow(''),
-        })
+        }),
       ),
       state: Joi.string().max(255),
     })
