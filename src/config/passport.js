@@ -11,9 +11,20 @@ const config = require('./config');
 const { tokenTypes } = require('./tokens');
 const { User, Asset } = require('../models');
 
+const cookieExtractor = (req) => {
+  let token = null;
+  if (req && req.cookies) {
+    token = req.cookies[config.jwt.cookie.name];
+  }
+  return token;
+};
+
 const jwtOptions = {
   secretOrKey: config.jwt.secret,
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: ExtractJwt.fromExtractors([
+    ExtractJwt.fromAuthHeaderAsBearerToken(),
+    cookieExtractor,
+  ]),
 };
 
 const jwtVerify = async (payload, done) => {

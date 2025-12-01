@@ -69,8 +69,9 @@ const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const user = await authService.loginUserWithEmailAndPassword(email, password);
   const tokens = await tokenService.generateAuthTokens(user);
-  res.cookie(config.jwt.cookie.name, tokens.refresh.token, {
-    expires: tokens.refresh.expires,
+  // Set access token in cookie for frontend authentication
+  res.cookie(config.jwt.cookie.name, tokens.access.token, {
+    expires: tokens.access.expires,
     ...config.jwt.cookie.options,
   });
   delete tokens.refresh;

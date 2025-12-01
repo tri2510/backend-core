@@ -93,9 +93,9 @@ const config = {
     cookie: {
       name: envVars.JWT_COOKIE_NAME,
       options: {
-        secure: true,
+        secure: envVars.NODE_ENV === 'production',
         httpOnly: true,
-        sameSite: 'None',
+        sameSite: envVars.NODE_ENV === 'production' ? 'None' : 'Lax',
         ...(envVars.NODE_ENV === 'production' && { domain: envVars.JWT_COOKIE_DOMAIN }),
       },
     },
