@@ -14,7 +14,6 @@ const mongoSanitize = require('express-mongo-sanitize');
 const compression = require('compression');
 const passport = require('passport');
 const httpStatus = require('http-status');
-const server = require('http').createServer(app);
 const config = require('./config/config');
 const morgan = require('./config/morgan');
 const { jwtStrategy } = require('./config/passport');
@@ -25,6 +24,7 @@ const { setupProxy } = require('./config/proxyHandler');
 const { init: initSocketIO } = require('./config/socket');
 
 const app = express();
+const server = require('http').createServer(app);
 
 if (config.env !== 'test') {
   app.use(morgan.successHandler);
